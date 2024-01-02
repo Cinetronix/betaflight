@@ -25,7 +25,7 @@
     The purpose of this file is to enable the firmware "gates" for features and drivers
     prior to entering the target.h.
 
-    CLOUD_BUILD is used to signify that the build is a user requested build and that the 
+    CLOUD_BUILD is used to signify that the build is a user requested build and that the
     features to be enabled will be defined ALREADY.
 
     CORE_BUILD is used to signify that the build is a user requested build and that the
@@ -94,6 +94,8 @@
 #define USE_BARO_BMP085
 #define USE_BARO_2SMBP_02B
 #define USE_BARO_SPI_2SMBP_02B
+#define USE_BARO_LPS22DF
+#define USE_BARO_SPI_LPS22DF
 #endif
 
 #if !defined(USE_GYRO) && !defined(USE_ACC)
@@ -114,6 +116,7 @@
 #define USE_GYRO_SPI_ICM42688P
 #define USE_ACC_SPI_ICM42605
 #define USE_ACC_SPI_ICM42688P
+#define USE_ACCGYRO_LSM6DSV16X
 
 #if TARGET_FLASH_SIZE > 512
 #define USE_ACC_MPU6050
@@ -152,6 +155,7 @@
 #define USE_RX_SPI
 
 #define USE_RX_CC2500
+#define USE_RX_CRSF
 #define USE_RX_EXPRESSLRS
 #define USE_RX_SX1280
 #define USE_RX_SX127X
@@ -222,6 +226,17 @@
 
 #endif // USE_TELEMETRY
 
+#ifdef USE_DSHOT_TELEMETRY
+#define USE_RPM_LIMIT
+#endif
+
+#ifdef USE_OSD
+// Dependency for CMS is defined outside this block.
+#define USE_QUICK_OSD_MENU
+#define USE_RC_STATS
+#define USE_SPEC_PREARM_SCREEN
+#endif
+
 #define USE_BATTERY_CONTINUE
 #define USE_DASHBOARD
 #define USE_EMFAT_AUTORUN
@@ -251,7 +266,7 @@
 #define USE_RANGEFINDER_HCSR04
 #define USE_RANGEFINDER_TF
 
-#endif
+#endif // TARGET_FLASH_SIZE > 512
 
 #endif // !defined(CLOUD_BUILD)
 
@@ -410,7 +425,6 @@
 
 #endif // defined(USE_OSD)
 
-
 #if defined(USE_SERIALRX_CRSF)
 
 #define USE_CRSF_V3
@@ -421,3 +435,26 @@
 #endif
 
 #endif // defined(USE_SERIALRX_CRSF)
+
+// USE_RACE_PRO feature pack
+#ifdef USE_RACE_PRO
+
+#ifdef USE_DSHOT_TELEMETRY
+#ifndef USE_RPM_LIMIT
+#define USE_RPM_LIMIT
+#endif
+#endif
+
+#ifdef USE_OSD
+#ifndef USE_QUICK_OSD_MENU
+#define USE_QUICK_OSD_MENU
+#endif
+#ifndef USE_RC_STATS
+#define USE_RC_STATS
+#endif
+#ifndef USE_SPEC_PREARM_SCREEN
+#define USE_SPEC_PREARM_SCREEN
+#endif
+#endif
+
+#endif // USE_RACE_PRO
