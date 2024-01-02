@@ -152,7 +152,6 @@
 #define USE_RX_SPI
 
 #define USE_RX_CC2500
-#define USE_RX_CRSF
 #define USE_RX_EXPRESSLRS
 #define USE_RX_SX1280
 #define USE_RX_SX127X
